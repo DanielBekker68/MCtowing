@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Page</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Admin Page</h1>
+    </header>
+
+    <main>
+        <section id="saved-answers">
+            <h2>Saved Answers</h2>
+            <ul id="answers-list">
+                <!-- Saved answers will be displayed here using JavaScript -->
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Transportation Booking</p>
+    </footer>
+
+    <!-- JavaScript to display saved answers -->
+    <script>
+        // Fetch data from your GitHub repository using the GitHub REST API
+        fetch('https://api.github.com/repos/DanielBekker68/MCtowing/contents/data.json')
+            .then(response => response.json())
+            .then(data => {
+                // Data fetched successfully, now you can display it
+                const decodedData = JSON.parse(atob(data.content));
+                const answersList = document.getElementById('answers-list');
+                if (decodedData && decodedData.length > 0) {
+                    for (const formData of decodedData) {
+                        const item = document.createElement('li');
+                        item.innerHTML = '<h2>Saved Answers:</h2>';
+                        for (const key in formData) {
+                            item.innerHTML += `<p><strong>${key}:</strong> ${formData[key]}</p>`;
+                        }
+                        answersList.appendChild(item);
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    </script>
+</body>
+</html>
